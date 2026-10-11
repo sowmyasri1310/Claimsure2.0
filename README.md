@@ -14,7 +14,7 @@
       Run the uvicorn development server:
 
       ```bash
-      uvicorn main:app --port 10000 --reload
+      uvicorn main:app --port 8000 --reload
    2. Start the Frontend App (Next.js)
    Navigate to the frontend directory:
 
@@ -29,17 +29,6 @@
    ```bash
    npm run dev
    Access the application in your browser at http://localhost:3000.```
-
-   3. Production Deployment Notes
-   Frontend (Vercel): Deploy /frontend directly. Add environment variables under project settings.
-
-   Backend (Render): Create a Python Web Service pointing to your repo.
-
-   Build Command: pip install -r backend/requirements.txt
-
-   Start Command: uvicorn backend.main:app --host 0.0.0.0 --port 10000
-
-   Set CHROMA_PERSIST_DIRECTORY=/opt/render/project/src/chroma_db for persistent storage and whitelist 0.0.0.0/0 on MongoDB Atlas.
 
 
 # 🔮 Future Improvements
@@ -142,7 +131,7 @@ Configure the following environment variables to run the application:
 
 1. Frontend Configuration (frontend/.env.local)
 ```env
-NEXT_PUBLIC_BACKEND_URL=http://localhost:10000
+NEXT_PUBLIC_BACKEND_URL=http://localhost:8000
 ```
 
 2. Backend Configuration (backend/.env)
@@ -188,7 +177,7 @@ LLM Evaluation: RAGAS (faithfulness and answer relevancy metrics)
 # 📊 Evaluation
 The /evaluate endpoint computes factual consistency and answer quality for your RAG checks using RAGAS metrics:
 
-Endpoint: POST http://localhost:10000/evaluate
+Endpoint: POST http://localhost:8000/evaluate
 
 Request Format:
 

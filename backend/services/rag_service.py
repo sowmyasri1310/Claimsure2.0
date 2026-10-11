@@ -151,11 +151,11 @@ def check_embedding_fallback(operation_name: str, hf_error: str = None):
     """
     Checks if local SentenceTransformer fallback is disabled to prevent OOM crash.
     """
-    if os.getenv("RENDER") or os.getenv("DISABLE_LOCAL_EMBEDDING", "false").lower() == "true":
+    if os.getenv("DISABLE_LOCAL_EMBEDDING", "false").lower() == "true":
         err_msg = (
             f"Hugging Face Inference API request failed during {operation_name}. "
-            "Local SentenceTransformer fallback is disabled on Render/constrained environments to prevent Out-Of-Memory (OOM) crashes. "
-            "Please configure a valid 'HF_TOKEN' environment variable in your Render service settings."
+            "Local SentenceTransformer fallback is disabled via DISABLE_LOCAL_EMBEDDING to prevent Out-Of-Memory (OOM) crashes. "
+            "Please configure a valid 'HF_TOKEN' environment variable in your environment configuration."
         )
         if hf_error:
             err_msg += f" Details from Hugging Face: {hf_error}"
@@ -170,7 +170,7 @@ def embed_chunks(chunks: list[str], collection_name: str, metadata_list: list[di
         
     chroma = get_chroma_client()
     
-    # Try Hugging Face Inference API first to save memory (especially on Render Free Tier)
+    # Try Hugging Face Inference API first to save memory
     embeddings, hf_error = get_embeddings_api(chunks)
     
     if embeddings is None:
@@ -195,7 +195,7 @@ def hybrid_search(collection_name: str, query: str, n_results: int = 5, where: d
     """
     chroma = get_chroma_client()
     
-    # Try Hugging Face Inference API first to save memory (especially on Render Free Tier)
+    # Try Hugging Face Inference API first to save memory
     embeddings, hf_error = get_embeddings_api([query])
     
     if embeddings is None:

@@ -24,19 +24,18 @@ allowed_origins_env = os.getenv("ALLOWED_ORIGINS", "")
 if allowed_origins_env:
     origins = [origin.strip() for origin in allowed_origins_env.split(",") if origin.strip()]
 else:
-    # Standard local development origins and direct Vercel URL
+    # Standard local development origins
     origins = [
         "http://localhost:3000",
         "http://localhost:5173",
         "http://127.0.0.1:3000",
         "http://127.0.0.1:5173",
-        "https://claim-sure-d11s1xz3l-sowmya-sris-projects-950cb19d.vercel.app"
     ]
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
-    allow_origin_regex=r"https://.*\.vercel\.app|http://localhost:\d+",
+    allow_origin_regex=r"http://localhost:\d+|http://127\.0\.0\.1:\d+",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -51,7 +50,7 @@ async def global_exception_handler(request: Request, exc: Exception):
     origin = request.headers.get("origin")
     headers = {}
     if origin:
-        allowed_pattern = r"https://.*\.vercel\.app|http://localhost:\d+|http://127.0.0.1:\d+"
+        allowed_pattern = r"http://localhost:\d+|http://127\.0\.0\.1:\d+"
         if re.fullmatch(allowed_pattern, origin) or origin in origins:
             headers["Access-Control-Allow-Origin"] = origin
             headers["Access-Control-Allow-Credentials"] = "true"
@@ -84,6 +83,7 @@ async def health_check():
 if __name__ == "__main__":
     import uvicorn
     # Start command for local development
-    uvicorn.run("main:app", host="0.0.0.0", port=10000, reload=True)
+    port = int(os.getenv("BACKEND_PORT", 8000))
+    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=True)
 
 print("FastAPI startup complete")

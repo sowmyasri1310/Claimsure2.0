@@ -1,5 +1,5 @@
 const getBackendUrl = (): string => {
-  return process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:10000';
+  return process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000';
 };
 
 export const api = {
