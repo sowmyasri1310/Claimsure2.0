@@ -1,0 +1,16 @@
+fastapi
+uvicorn
+python-multipart
+groq
+chromadb
+sentence-transformers
+PyMuPDF
+langgraph
+langchain-core
+motor
+pymongo
+python-dotenv
+ragas
+pydantic
+httpx
+langsmith
